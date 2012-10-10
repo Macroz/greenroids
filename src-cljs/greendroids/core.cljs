@@ -14,18 +14,21 @@
   :else x))
 
 
-(def data (atom {}))
+(def data (atom {:player {:position [50 100]}}))
 (def gee (atom nil))
 (def ctx (atom nil))
 
 (defn circle
-  "Draws a filled circle to x, y with radius rad."
-  [x y rad]
+  "Draws a filled circle to x, y with radiuses radx and rady."
+  [x y radx rady]
   (doto @ctx
-   (.beginPath)
-   (.arc x y rad rad 0 (* 2.0 Math/PI) true)
-   (.closePath)
-   (.fill)))
+    (.save)
+    (.scale 1.0 (/ rady radx))
+    (.beginPath)
+    (.arc x (/ (* y radx) rady) radx 0 (* 2.0 Math/PI) true)
+    (.closePath)
+    (.fill)
+    (.restore)))
 
 (defn line [x1 y1 x2 y2]
   (.beginPath @ctx)
@@ -34,11 +37,29 @@
   (.closePath @ctx)
   (.stroke @ctx))
 
+(defn simulate []
+  (let [[x y] (get-in @data [:player :position])
+        [tx ty] (get-in @data [:player :target])
+        dx (- tx x)
+        dy (- ty y)
+        nx (+ x (* dx 0.05))
+        ny (+ y (* dy 0.05))]
+    (swap! data (fn [data] (assoc-in data [:player :position] [nx ny])))))
+
 (defn draw []
+  (simulate)
   (let [width (. @gee -width)
         height (. @gee -height)]
     (set! (. @ctx -fillStyle) "rgb(0, 0, 0)")
     (.fillRect @ctx 0 0 width height))
+
+  (let [[x y] (get-in @data [:player :position])
+        [tx ty] (get-in @data [:player :target])]
+    (set! (. @ctx -strokeStyle) "rgb(150, 150, 150)")
+    (line x y tx ty)
+    (set! (. @ctx -fillStyle) "rgb(200, 200, 200)")
+    (circle x y 10 10))
+  
   (set! (. @ctx -fillStyle) "rgb(255, 255, 255)")
   (set! (. @ctx -textAlign) "left")
   (set! (. @ctx -textBaseline) "middle")
@@ -47,7 +68,11 @@
 
 (defn move
   "Callback for when the user moves."
-  [])
+  []
+  (swap! data (fn [data]
+                (let [mx (. @gee -mouseX)
+                      my (. @gee -mouseY)]
+                  (assoc-in data [:player :target] [mx my])))))
 
 (defn stopshooting
   "Callback for when the user stops shooting."
