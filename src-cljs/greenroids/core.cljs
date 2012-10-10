@@ -1,4 +1,4 @@
-(ns greendroids.core)
+(ns greenroids.core)
 
 (defn clj->js
  "Recursively transforms ClojureScript maps into Javascript objects,

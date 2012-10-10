@@ -1,6 +1,6 @@
 (defproject greenroids "0.1.0-SNAPSHOT"
   :description "GreenRoids - Droid shooting game for ClojuTRE"
-  :url "http://example.com/FIXME"
+  :url "http://greenroids.heroku.com"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.4.0"]
@@ -11,7 +11,7 @@
   :plugins [[lein-cljsbuild "0.2.7"]
             [lein-ring "0.7.3"]]
   :profiles {:dev {:dependencies [[ring-mock "0.1.3"]]}}
-  :ring {:handler greendroids.core/app}
+  :ring {:handler greenroids.core/app}
   :cljsbuild {
               :builds [{
                         :source-path "src-cljs"
@@ -19,5 +19,3 @@
                                    :output-to "resources/public/js/cljs.js"
                                    :optimizations :whitespace
                                    :pretty-print true}}]})
-
-

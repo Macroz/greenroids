@@ -6,15 +6,17 @@
             [compojure.handler :as handler])
   (:use [ring.adapter.jetty :only [run-jetty]]))
 
-(defn game []
+(defn game
+  "Serves the main game page."
+  []
   (html5 [:head
           [:meta {:charset "utf-8"}]
           [:meta {:http-equiv "X-UA-Compatible" :content "IE=edge,chrome=1"}]
           [:meta {:name "viewport" :content "width=device-width, initial-scale=1.0"}]
-          [:title "GreenDroids"]
+          [:title "GreenRoids"]
           (include-js "js/gee.min.js")
           (include-js "js/cljs.js")]
-         [:body {:onload "greendroids.core.start();"}]))
+         [:body {:onload "greenroids.core.start();"}]))
 
 (defroutes main-routes
   (GET "/" [] (game))

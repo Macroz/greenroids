@@ -20186,9 +20186,9 @@ cljs.core.UUID.prototype.toString = function() {
   return cljs.core.pr_str.call(null, this__10050)
 };
 cljs.core.UUID;
-goog.provide("greendroids.core");
+goog.provide("greenroids.core");
 goog.require("cljs.core");
-greendroids.core.clj__GT_js = function clj__GT_js(x) {
+greenroids.core.clj__GT_js = function clj__GT_js(x) {
   if(cljs.core.string_QMARK_.call(null, x)) {
     return x
   }else {
@@ -20196,11 +20196,11 @@ greendroids.core.clj__GT_js = function clj__GT_js(x) {
       return cljs.core.name.call(null, x)
     }else {
       if(cljs.core.map_QMARK_.call(null, x)) {
-        return cljs.core.reduce.call(null, function(m, p__144544) {
-          var vec__144545__144546 = p__144544;
-          var k__144547 = cljs.core.nth.call(null, vec__144545__144546, 0, null);
-          var v__144548 = cljs.core.nth.call(null, vec__144545__144546, 1, null);
-          return cljs.core.assoc.call(null, m, clj__GT_js.call(null, k__144547), clj__GT_js.call(null, v__144548))
+        return cljs.core.reduce.call(null, function(m, p__148134) {
+          var vec__148135__148136 = p__148134;
+          var k__148137 = cljs.core.nth.call(null, vec__148135__148136, 0, null);
+          var v__148138 = cljs.core.nth.call(null, vec__148135__148136, 1, null);
+          return cljs.core.assoc.call(null, m, clj__GT_js.call(null, k__148137), clj__GT_js.call(null, v__148138))
         }, cljs.core.ObjMap.EMPTY, x).strobj
       }else {
         if(cljs.core.coll_QMARK_.call(null, x)) {
@@ -20216,91 +20216,91 @@ greendroids.core.clj__GT_js = function clj__GT_js(x) {
     }
   }
 };
-greendroids.core.data = cljs.core.atom.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'player"], {"\ufdd0'player":cljs.core.ObjMap.fromObject(["\ufdd0'position"], {"\ufdd0'position":cljs.core.PersistentVector.fromArray([50, 100], true)})}));
-greendroids.core.gee = cljs.core.atom.call(null, null);
-greendroids.core.ctx = cljs.core.atom.call(null, null);
-greendroids.core.circle = function circle(x, y, radx, rady) {
-  var G__144551__144552 = cljs.core.deref.call(null, greendroids.core.ctx);
-  G__144551__144552.save();
-  G__144551__144552.scale(1, rady / radx);
-  G__144551__144552.beginPath();
-  G__144551__144552.arc(x, y * radx / rady, radx, 0, 2 * Math.PI, true);
-  G__144551__144552.closePath();
-  G__144551__144552.fill();
-  G__144551__144552.restore();
-  return G__144551__144552
+greenroids.core.data = cljs.core.atom.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'player"], {"\ufdd0'player":cljs.core.ObjMap.fromObject(["\ufdd0'position"], {"\ufdd0'position":cljs.core.PersistentVector.fromArray([50, 100], true)})}));
+greenroids.core.gee = cljs.core.atom.call(null, null);
+greenroids.core.ctx = cljs.core.atom.call(null, null);
+greenroids.core.circle = function circle(x, y, radx, rady) {
+  var G__148141__148142 = cljs.core.deref.call(null, greenroids.core.ctx);
+  G__148141__148142.save();
+  G__148141__148142.scale(1, rady / radx);
+  G__148141__148142.beginPath();
+  G__148141__148142.arc(x, y * radx / rady, radx, 0, 2 * Math.PI, true);
+  G__148141__148142.closePath();
+  G__148141__148142.fill();
+  G__148141__148142.restore();
+  return G__148141__148142
 };
-greendroids.core.line = function line(x1, y1, x2, y2) {
-  cljs.core.deref.call(null, greendroids.core.ctx).beginPath();
-  cljs.core.deref.call(null, greendroids.core.ctx).moveTo(x1, y1);
-  cljs.core.deref.call(null, greendroids.core.ctx).lineTo(x2, y2);
-  cljs.core.deref.call(null, greendroids.core.ctx).closePath();
-  return cljs.core.deref.call(null, greendroids.core.ctx).stroke()
+greenroids.core.line = function line(x1, y1, x2, y2) {
+  cljs.core.deref.call(null, greenroids.core.ctx).beginPath();
+  cljs.core.deref.call(null, greenroids.core.ctx).moveTo(x1, y1);
+  cljs.core.deref.call(null, greenroids.core.ctx).lineTo(x2, y2);
+  cljs.core.deref.call(null, greenroids.core.ctx).closePath();
+  return cljs.core.deref.call(null, greenroids.core.ctx).stroke()
 };
-greendroids.core.simulate = function simulate() {
-  var vec__144565__144567 = cljs.core.get_in.call(null, cljs.core.deref.call(null, greendroids.core.data), cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'position"], true));
-  var x__144568 = cljs.core.nth.call(null, vec__144565__144567, 0, null);
-  var y__144569 = cljs.core.nth.call(null, vec__144565__144567, 1, null);
-  var vec__144566__144570 = cljs.core.get_in.call(null, cljs.core.deref.call(null, greendroids.core.data), cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'target"], true));
-  var tx__144571 = cljs.core.nth.call(null, vec__144566__144570, 0, null);
-  var ty__144572 = cljs.core.nth.call(null, vec__144566__144570, 1, null);
-  var dx__144573 = tx__144571 - x__144568;
-  var dy__144574 = ty__144572 - y__144569;
-  var nx__144575 = x__144568 + dx__144573 * 0.05;
-  var ny__144576 = y__144569 + dy__144574 * 0.05;
-  return cljs.core.swap_BANG_.call(null, greendroids.core.data, function(data) {
-    return cljs.core.assoc_in.call(null, data, cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'position"], true), cljs.core.PersistentVector.fromArray([nx__144575, ny__144576], true))
+greenroids.core.simulate = function simulate() {
+  var vec__148155__148157 = cljs.core.get_in.call(null, cljs.core.deref.call(null, greenroids.core.data), cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'position"], true));
+  var x__148158 = cljs.core.nth.call(null, vec__148155__148157, 0, null);
+  var y__148159 = cljs.core.nth.call(null, vec__148155__148157, 1, null);
+  var vec__148156__148160 = cljs.core.get_in.call(null, cljs.core.deref.call(null, greenroids.core.data), cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'target"], true));
+  var tx__148161 = cljs.core.nth.call(null, vec__148156__148160, 0, null);
+  var ty__148162 = cljs.core.nth.call(null, vec__148156__148160, 1, null);
+  var dx__148163 = tx__148161 - x__148158;
+  var dy__148164 = ty__148162 - y__148159;
+  var nx__148165 = x__148158 + dx__148163 * 0.05;
+  var ny__148166 = y__148159 + dy__148164 * 0.05;
+  return cljs.core.swap_BANG_.call(null, greenroids.core.data, function(data) {
+    return cljs.core.assoc_in.call(null, data, cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'position"], true), cljs.core.PersistentVector.fromArray([nx__148165, ny__148166], true))
   })
 };
-greendroids.core.draw = function draw() {
-  greendroids.core.simulate.call(null);
-  var width__144587 = cljs.core.deref.call(null, greendroids.core.gee).width;
-  var height__144588 = cljs.core.deref.call(null, greendroids.core.gee).height;
-  cljs.core.deref.call(null, greendroids.core.ctx).fillStyle = "rgb(0, 0, 0)";
-  cljs.core.deref.call(null, greendroids.core.ctx).fillRect(0, 0, width__144587, height__144588);
-  var vec__144589__144591 = cljs.core.get_in.call(null, cljs.core.deref.call(null, greendroids.core.data), cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'position"], true));
-  var x__144592 = cljs.core.nth.call(null, vec__144589__144591, 0, null);
-  var y__144593 = cljs.core.nth.call(null, vec__144589__144591, 1, null);
-  var vec__144590__144594 = cljs.core.get_in.call(null, cljs.core.deref.call(null, greendroids.core.data), cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'target"], true));
-  var tx__144595 = cljs.core.nth.call(null, vec__144590__144594, 0, null);
-  var ty__144596 = cljs.core.nth.call(null, vec__144590__144594, 1, null);
-  cljs.core.deref.call(null, greendroids.core.ctx).strokeStyle = "rgb(150, 150, 150)";
-  greendroids.core.line.call(null, x__144592, y__144593, tx__144595, ty__144596);
-  cljs.core.deref.call(null, greendroids.core.ctx).fillStyle = "rgb(200, 200, 200)";
-  greendroids.core.circle.call(null, x__144592, y__144593, 10, 10);
-  cljs.core.deref.call(null, greendroids.core.ctx).fillStyle = "rgb(255, 255, 255)";
-  cljs.core.deref.call(null, greendroids.core.ctx).textAlign = "left";
-  cljs.core.deref.call(null, greendroids.core.ctx).textBaseline = "middle";
-  cljs.core.deref.call(null, greendroids.core.ctx).font = "20pt Courier New";
-  return cljs.core.deref.call(null, greendroids.core.ctx).fillText([cljs.core.str("fps "), cljs.core.str(Math.round.call(null, cljs.core.deref.call(null, greendroids.core.gee).frameRate))].join(""), 50, 40)
+greenroids.core.draw = function draw() {
+  greenroids.core.simulate.call(null);
+  var width__148177 = cljs.core.deref.call(null, greenroids.core.gee).width;
+  var height__148178 = cljs.core.deref.call(null, greenroids.core.gee).height;
+  cljs.core.deref.call(null, greenroids.core.ctx).fillStyle = "rgb(0, 0, 0)";
+  cljs.core.deref.call(null, greenroids.core.ctx).fillRect(0, 0, width__148177, height__148178);
+  var vec__148179__148181 = cljs.core.get_in.call(null, cljs.core.deref.call(null, greenroids.core.data), cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'position"], true));
+  var x__148182 = cljs.core.nth.call(null, vec__148179__148181, 0, null);
+  var y__148183 = cljs.core.nth.call(null, vec__148179__148181, 1, null);
+  var vec__148180__148184 = cljs.core.get_in.call(null, cljs.core.deref.call(null, greenroids.core.data), cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'target"], true));
+  var tx__148185 = cljs.core.nth.call(null, vec__148180__148184, 0, null);
+  var ty__148186 = cljs.core.nth.call(null, vec__148180__148184, 1, null);
+  cljs.core.deref.call(null, greenroids.core.ctx).strokeStyle = "rgb(150, 150, 150)";
+  greenroids.core.line.call(null, x__148182, y__148183, tx__148185, ty__148186);
+  cljs.core.deref.call(null, greenroids.core.ctx).fillStyle = "rgb(200, 200, 200)";
+  greenroids.core.circle.call(null, x__148182, y__148183, 10, 10);
+  cljs.core.deref.call(null, greenroids.core.ctx).fillStyle = "rgb(255, 255, 255)";
+  cljs.core.deref.call(null, greenroids.core.ctx).textAlign = "left";
+  cljs.core.deref.call(null, greenroids.core.ctx).textBaseline = "middle";
+  cljs.core.deref.call(null, greenroids.core.ctx).font = "20pt Courier New";
+  return cljs.core.deref.call(null, greenroids.core.ctx).fillText([cljs.core.str("fps "), cljs.core.str(Math.round.call(null, cljs.core.deref.call(null, greenroids.core.gee).frameRate))].join(""), 50, 40)
 };
-greendroids.core.move = function move() {
-  return cljs.core.swap_BANG_.call(null, greendroids.core.data, function(data) {
-    var mx__144599 = cljs.core.deref.call(null, greendroids.core.gee).mouseX;
-    var my__144600 = cljs.core.deref.call(null, greendroids.core.gee).mouseY;
-    return cljs.core.assoc_in.call(null, data, cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'target"], true), cljs.core.PersistentVector.fromArray([mx__144599, my__144600], true))
+greenroids.core.move = function move() {
+  return cljs.core.swap_BANG_.call(null, greenroids.core.data, function(data) {
+    var mx__148189 = cljs.core.deref.call(null, greenroids.core.gee).mouseX;
+    var my__148190 = cljs.core.deref.call(null, greenroids.core.gee).mouseY;
+    return cljs.core.assoc_in.call(null, data, cljs.core.PersistentVector.fromArray(["\ufdd0'player", "\ufdd0'target"], true), cljs.core.PersistentVector.fromArray([mx__148189, my__148190], true))
   })
 };
-greendroids.core.stopshooting = function stopshooting() {
+greenroids.core.stopshooting = function stopshooting() {
   return null
 };
-greendroids.core.shoot = function shoot() {
+greenroids.core.shoot = function shoot() {
   return null
 };
-greendroids.core.start = function start() {
-  var GEE__144603 = window.GEE;
-  var params__144604 = greendroids.core.clj__GT_js.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'fullscreen", "\ufdd0'context"], {"\ufdd0'fullscreen":true, "\ufdd0'context":"2d"}));
-  cljs.core.swap_BANG_.call(null, greendroids.core.gee, function() {
-    return new GEE__144603(params__144604)
+greenroids.core.start = function start() {
+  var GEE__148193 = window.GEE;
+  var params__148194 = greenroids.core.clj__GT_js.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'fullscreen", "\ufdd0'context"], {"\ufdd0'fullscreen":true, "\ufdd0'context":"2d"}));
+  cljs.core.swap_BANG_.call(null, greenroids.core.gee, function() {
+    return new GEE__148193(params__148194)
   });
-  cljs.core.swap_BANG_.call(null, greendroids.core.ctx, function() {
-    return cljs.core.deref.call(null, greendroids.core.gee).ctx
+  cljs.core.swap_BANG_.call(null, greenroids.core.ctx, function() {
+    return cljs.core.deref.call(null, greenroids.core.gee).ctx
   });
-  cljs.core.deref.call(null, greendroids.core.gee).draw = greendroids.core.draw;
-  cljs.core.deref.call(null, greendroids.core.gee).mousemove = greendroids.core.move;
-  cljs.core.deref.call(null, greendroids.core.gee).mousedown = greendroids.core.shoot;
-  cljs.core.deref.call(null, greendroids.core.gee).mouseup = greendroids.core.stopshooting;
-  cljs.core.deref.call(null, greendroids.core.gee).mousedrag = greendroids.core.move;
-  return document.body.appendChild(greendroids.core.gee.domElement)
+  cljs.core.deref.call(null, greenroids.core.gee).draw = greenroids.core.draw;
+  cljs.core.deref.call(null, greenroids.core.gee).mousemove = greenroids.core.move;
+  cljs.core.deref.call(null, greenroids.core.gee).mousedown = greenroids.core.shoot;
+  cljs.core.deref.call(null, greenroids.core.gee).mouseup = greenroids.core.stopshooting;
+  cljs.core.deref.call(null, greenroids.core.gee).mousedrag = greenroids.core.move;
+  return document.body.appendChild(greenroids.core.gee.domElement)
 };
-goog.exportSymbol("greendroids.core.start", greendroids.core.start);
+goog.exportSymbol("greenroids.core.start", greenroids.core.start);
