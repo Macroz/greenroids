@@ -30,14 +30,18 @@
     (.fill)
     (.restore)))
 
-(defn line [x1 y1 x2 y2]
+(defn line
+  "Draws a straight line between x1, y1 and x2, y2."
+  [x1 y1 x2 y2]
   (.beginPath @ctx)
   (.moveTo @ctx x1 y1)
   (.lineTo @ctx x2 y2)
   (.closePath @ctx)
   (.stroke @ctx))
 
-(defn simulate []
+(defn simulate
+  "Simulates the world one step forward."
+  []
   (let [[x y] (get-in @data [:player :position])
         [tx ty] (get-in @data [:player :target])
         dx (- tx x)
@@ -46,7 +50,9 @@
         ny (+ y (* dy 0.05))]
     (swap! data (fn [data] (assoc-in data [:player :position] [nx ny])))))
 
-(defn draw []
+(defn draw
+  "Draws the game."
+  []
   (simulate)
   (let [width (. @gee -width)
         height (. @gee -height)]
