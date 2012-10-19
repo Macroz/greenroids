@@ -1,20 +1,27 @@
 (ns greenroids.core)
 
 (defn clj->js
- "Recursively transforms ClojureScript maps into Javascript objects,
+  "Recursively transforms ClojureScript maps into Javascript objects,
   other ClojureScript colls into JavaScript arrays, and ClojureScript
   keywords into JavaScript strings."
- [x]
- (cond
-  (string? x) x
-  (keyword? x) (name x)
-  (map? x) (.-strobj (reduce (fn [m [k v]]
-                               (assoc m (clj->js k) (clj->js v))) {} x))
-  (coll? x) (apply array (map clj->js x))
-  :else x))
+  [x]
+  (cond
+   (string? x) x
+   (keyword? x) (name x)
+   (map? x) (.-strobj (reduce (fn [m [k v]]
+                                (assoc m (clj->js k) (clj->js v))) {} x))
+   (coll? x) (apply array (map clj->js x))
+   :else x))
 
+(defn make-droid []
+  (let [x (rand-int 1000)
+        y (rand-int 1000)
+        position [x y]]
+    {:position position}))
 
-(def data (atom {:player {:position [50 100]}}))
+(def data (atom {:player {:position [100 100]}
+                 :droids (repeatedly 10 make-droid)
+                 :bullets []}))
 (def gee (atom nil))
 (def ctx (atom nil))
 
@@ -39,16 +46,45 @@
   (.closePath @ctx)
   (.stroke @ctx))
 
+(defn normalize [vector]
+  (let [[dx dy] vector
+        length (Math/sqrt (+ (* dx dx) (* dy dy)))]
+    [(/ dx length) (/ dy length)]))
+
+(defn new-bullet [player-position player-direction]
+  {:position player-position
+   :direction (normalize player-direction)})
+
+(defn move-bullet [bullet]
+  (let [[px py] (bullet :position)
+        [dx dy] (bullet :direction)
+        new-position [(+ px (* dx 10))
+                      (+ py (* dy 10))]]
+    (assoc bullet :position new-position)))
+
+(defn player-shoot []
+  (let [player-position (get-in @data [:player :position])
+        player-direction (get-in @data [:player :direction])
+        new-bullets (conj (@data :bullets) (new-bullet player-position player-direction))]
+    (swap! data (fn [data] (assoc data :bullets new-bullets)))))
+
 (defn simulate
   "Simulates the world one step forward."
   []
-  (let [[x y] (get-in @data [:player :position])
-        [tx ty] (get-in @data [:player :target])
-        dx (- tx x)
-        dy (- ty y)
-        nx (+ x (* dx 0.05))
-        ny (+ y (* dy 0.05))]
-    (swap! data (fn [data] (assoc-in data [:player :position] [nx ny])))))
+  (let [[px py] (get-in @data [:player :position])
+        [tx ty] (get-in @data [:player :target] [0 0])
+        dx (* (- tx px) 0.01)
+        dy (* (- ty py) 0.01)
+        new-position [(+ px dx)
+                      (+ py dy)]
+        new-direction [dx dy]]
+    (swap! data (fn [data] (assoc-in data [:player :position] new-position)))
+    (swap! data (fn [data] (assoc-in data [:player :direction] new-direction)))
+    (when (get-in @data [:player :shooting?])
+      (player-shoot))
+    (let [new-bullets (map move-bullet (@data :bullets))]
+      (swap! data (fn [data] (assoc data :bullets new-bullets))))))
+
 
 (defn draw
   "Draws the game."
@@ -59,14 +95,29 @@
     (set! (. @ctx -fillStyle) "rgb(0, 0, 0)")
     (.fillRect @ctx 0 0 width height))
 
-  (let [[x y] (get-in @data [:player :position])
-        [tx ty] (get-in @data [:player :target])]
-    (set! (. @ctx -strokeStyle) "rgb(150, 150, 150)")
-    (line x y tx ty)
-    (set! (. @ctx -fillStyle) "rgb(200, 200, 200)")
-    (circle x y 10 10))
-  
+  (set! (. @ctx -fillStyle) "rgb(0, 255, 0)")
+  (doseq [d (@data :droids)]
+    (let [[x y] (d :position)]
+      (circle x y 10 10)))
+
+  (set! (. @ctx -fillStyle) "rgb(255, 0, 0)")
+  (set! (. @ctx -strokeStyle) "rgb(255, 255, 255)")
+  (doseq [b (@data :bullets)]
+    (let [[x y] (b :position)
+          [dx dy] (b :direction)
+          x2 (+ x (* dx 10))
+          y2 (+ y (* dy 10))]
+      (line x y x2 y2)))
+
   (set! (. @ctx -fillStyle) "rgb(255, 255, 255)")
+  (let [[x y] (get-in @data [:player :position])]
+    (circle x y 10 10))
+
+  (let [[tx ty] (get-in @data [:player :target] [0 0])]
+    (circle tx ty 5 5))
+
+  (set! (. @ctx -fillStyle) "rgb(255, 255, 255)")
+  (set! (. @ctx -strokeStyle) "rgb(255, 255, 255)")
   (set! (. @ctx -textAlign) "left")
   (set! (. @ctx -textBaseline) "middle")
   (set! (. @ctx -font) "20pt Courier New")
@@ -75,24 +126,25 @@
 (defn move
   "Callback for when the user moves."
   []
-  (swap! data (fn [data]
-                (let [mx (. @gee -mouseX)
-                      my (. @gee -mouseY)]
-                  (assoc-in data [:player :target] [mx my])))))
+  (let [tx (. @gee -mouseX)
+        ty (. @gee -mouseY)]
+    (swap! data (fn [data] (assoc-in data [:player :target] [tx ty])))))
 
 (defn stopshooting
   "Callback for when the user stops shooting."
-  [])
+  []
+  (swap! data (fn [data] (assoc-in data [:player :shooting?] false))))
 
 (defn shoot
   "Callback for when the user shoots."
-  [])
+  []
+  (swap! data (fn [data] (assoc-in data [:player :shooting?] true))))
 
 (defn ^:export start []
   (let [GEE (. js/window -GEE)
         params (clj->js {:fullscreen true
                          :context "2d"})]
-    
+
     (swap! gee (fn [] (new GEE params))))
   (swap! ctx (fn [] (. @gee -ctx)))
   (set! (. @gee -draw) draw)

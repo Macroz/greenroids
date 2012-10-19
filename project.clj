@@ -1,5 +1,5 @@
 (defproject greenroids "0.1.0-SNAPSHOT"
-  :description "GreenRoids - Droid shooting game for ClojuTRE"
+  :description "GreenRoids - Droid shooting game for ClojuTRE - by Markku Rontu"
   :url "http://greenroids.heroku.com"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
