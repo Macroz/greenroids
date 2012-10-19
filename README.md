@@ -1,13 +1,13 @@
 # greenroids
 
-A Clojure library designed to ... well, that part is up to you.
+GreenRoids droid shooting game developed for ClojuTRE with Clojure and ClojureScript by Markku Rontu.
 
 ## Usage
 
-FIXME
+lein run <port>
 
 ## License
 
-Copyright © 2012 FIXME
+Copyright © 2012 Markku Rontu
 
 Distributed under the Eclipse Public License, the same as Clojure.

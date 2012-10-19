@@ -28,4 +28,4 @@
 (defn -main [port]
   (run-jetty app {:port (Integer. port)}))
 
-(defonce server (run-jetty #'app {:port 8080 :join? false}))
+;;(defonce server (run-jetty #'app {:port 8080 :join? false}))

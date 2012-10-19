@@ -12,6 +12,7 @@
             [lein-ring "0.7.3"]]
   :profiles {:dev {:dependencies [[ring-mock "0.1.3"]]}}
   :ring {:handler greenroids.core/app}
+  :main greenroids.core
   :cljsbuild {
               :builds [{
                         :source-path "src-cljs"
