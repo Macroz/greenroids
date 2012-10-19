@@ -8,7 +8,7 @@ A more developed version to be done later...
 
 ## Usage
 
-lein run <port>
+lein run \<port\>
 
 ## License
 
